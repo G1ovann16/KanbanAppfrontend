@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin&display=swap');
+
+$family-sans-serif: 'Cabin', sans-serif;
+
+$control-border-width: 2px;
+$input-border-color: transparent;
+$input-shadow: none;
+
+$blue: #0f70e7;
+$bluelight: #3a93dd;
+$light: #f4f4f4;
+
+html {
+    background: linear-gradient(to right top, $blue, $bluelight);
+}
+
+html, body {
+    height: 100%;
+}
+
