@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { Board } from 'src/app/models/board.model';
 import { Column } from 'src/app/models/column.model';
+import {TaskService} from '../../services/task.service';
+import { Task } from '../../models/task';
 
 @Component({
   selector: 'app-main-view',
@@ -9,8 +11,10 @@ import { Column } from 'src/app/models/column.model';
   styleUrls: ['./main-view.component.scss']
 })
 export class MainViewComponent implements OnInit {
-
-  constructor() { }
+//#region  variables
+taskList: Task;
+//#endregion
+  constructor(public taskService: TaskService) { }
 
   board: Board = new Board('Test Board', [
     new Column('Ideas', [
@@ -39,6 +43,7 @@ export class MainViewComponent implements OnInit {
   ]);
 
   ngOnInit() {
+    this.getAllTask();
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -51,5 +56,31 @@ export class MainViewComponent implements OnInit {
                         event.currentIndex);
     }
   }
+//#region methods GET PUSH DELETE
+getAllTask(){
+  this.taskService.getAll()
+  // tslint:disable-next-line: no-shadowed-variable
+  .subscribe(( task: Task) =>
+      {
+        this.taskList = task;
+        console.log(this.taskList);
+      },
+      err => console.log(err)
+              );
+          }
+          // taskform: NgForm
+  addTask(){
+    this.taskService.setTask('')  //taskform.value
+    .subscribe(msn => this.getAllTask());
+            }
+
+  delTask(i: number){
+    this.taskService.delete(i)
+    .subscribe(msn => this.getAllTask());
+
+  }
+
+//#endregion
+
 
 }
